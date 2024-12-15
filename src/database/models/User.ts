@@ -27,11 +27,7 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING, 
     allowNull: true,
   },
-  firstName: {
-    type: DataTypes.STRING, 
-    allowNull: true,
-  },
-  lastName: {
+  fullName: {
     type: DataTypes.STRING, 
     allowNull: true,
   },

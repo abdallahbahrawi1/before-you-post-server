@@ -3,8 +3,7 @@ import User from '../database/models/User';
 import { IUser } from '../types/types';
 
 export const signupUser = async (
-  firstName: string,
-  lastName: string,
+  fullName: string,
   email: string,
   password: string
 ): Promise<IUser> => {
@@ -16,8 +15,7 @@ export const signupUser = async (
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await User.create({
-    firstName,
-    lastName,
+    fullName,
     email,
     password: hashedPassword,
   });
