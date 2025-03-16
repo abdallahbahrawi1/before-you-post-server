@@ -8,5 +8,5 @@ export const generateToken = (id: number): string => {
     throw new Error('JWT_SECRET or JWT_EXPIRES_IN is not defined in the environment variables.');
   }
 
-  return jwt.sign({ id }, secret, { expiresIn });
+  return jwt.sign({ id }, secret, { expiresIn: parseInt(expiresIn, 10) });
 };

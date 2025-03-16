@@ -7,6 +7,7 @@ import { checkUser } from './middlewares/authenticateJWT';
 import './config/passport-setup';
 // 
 // Test the connection to the database
+console.log('Testing the database connection...');
 sequelize.authenticate()
 .then(() => {
 	console.log('Connected to the database.');
