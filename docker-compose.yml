@@ -1,0 +1,11 @@
+services:
+  backend-api:
+    # contaner_name: backend-api
+    # image: node:23-alpine3.20
+    build: ./
+    command: npm start
+    working_dir: /app
+    ports:
+       - "5000:5000"
+    volumes:
+      - ./:/app
