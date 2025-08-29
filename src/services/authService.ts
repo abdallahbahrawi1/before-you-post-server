@@ -7,7 +7,8 @@ export const signupUser = async (
   email: string,
   password: string
 ): Promise<IUser> => {
-  const existingUser = await User.findOne({ where: { email } });
+  // Check if user already exists
+  const existingUser = await User.findOne({ where: { email: email.toLowerCase() } });
   if (existingUser) {
     throw new Error('Email is already in use.');
   }
@@ -16,7 +17,7 @@ export const signupUser = async (
 
   const user = await User.create({
     fullName,
-    email,
+    email: email.toLowerCase(),
     password: hashedPassword,
   });
 
@@ -24,7 +25,11 @@ export const signupUser = async (
 };
 
 export const loginUser = async (email: string, password: string): Promise<IUser> => {
-  const user = await User.findOne({ where: { email } }) as unknown as IUser;
+  // Find user by email
+  const user = await User.findOne({ 
+    where: { email: email.toLowerCase() } 
+  }) as unknown as IUser;
+
   if (!user) {
     throw new Error('User not found');
   }
@@ -36,3 +41,4 @@ export const loginUser = async (email: string, password: string): Promise<IUser>
 
   return user;
 };
+

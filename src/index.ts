@@ -1,56 +1,52 @@
 import express from 'express';
 import cors from 'cors';
-import sequelize from './config/database';
-import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
-// import { checkUser } from './middlewares/authenticateJWT';
-import './config/passport-setup';
+
+// Import routes
+import authRoutes from './routes/authRoutes';
 import homeRoutes from './routes/homeRoutes';
-// 
-// Test the connection to the database
-console.log('Testing the database connection...');
-sequelize.authenticate()
-.then(() => {
-	console.log('Connected to the database.');
-})
-.catch(err => {
-	console.error('Error connecting to the database:', err);
-});
+import requestRoutes from './routes/requestRoutes';
+import reviewRoutes from './routes/reviewRoutes';
 
-// Synchronize the models with the database
-sequelize.sync(
-	{alter: true}
-	// {force: true}
-)
-.then(() => {
-	console.log('Database synchronization complete.');
-})
-.catch((err: any) => {
-	console.error('Error synchronizing the database:', err);
-});
-
+// Import database initialization
+import { initializeDatabase } from './database';
+import './config/passport-setup';
 
 const app = express();
 
+// Middleware
 app.use(cors({
   origin: 'http://localhost:3000', // Frontend origin
   credentials: true, // Allow cookies to be sent with requests
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 
+// Initialize database and start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
+const startServer = async () => {
+  try {
+    // Initialize database first
+    await initializeDatabase();
+    
+    // Start server after database is ready
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+    
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
 
-// Routes
-// app.use('*', checkUser);
+startServer();
 
 app.use('', homeRoutes)
 app.use('/auth', authRoutes);
+app.use('/api', requestRoutes);
+app.use('/api/reviews', reviewRoutes);
 app.get('/protected')
 
 // cookies
