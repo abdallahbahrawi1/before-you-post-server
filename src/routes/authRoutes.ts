@@ -9,11 +9,19 @@ router.post('/signup', signup_post);
 router.post('/login', login_post);
 
 router.get('/me', authenticateAndAttachUser, (req, res) => {
-  if(!res.locals.user) {
+  if (!res.locals.user) {
     return res.status(401).send('Unauthorized');
   }
-  const { id, email, fullName } = res.locals.user;
-  res.json({ user: {id, email, fullName}})
+  // Return all relevant user info
+  const { id, email, fullName, karma, googleId, linkedinId, createdAt, updatedAt } = res.locals.user;
+  res.json({
+    user: {
+      id,
+      email,
+      fullName,
+      karma,         // Add karma (points)
+    }
+  });
 });
 
 router.get('logout', (req, res) => {

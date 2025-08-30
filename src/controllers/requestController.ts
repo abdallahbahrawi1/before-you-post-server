@@ -1,10 +1,10 @@
 import { Request as ExpressRequest, Response } from 'express';
 
-import { 
-  getUserRequests, 
-  getRequestById, 
-  createRequest, 
-  deleteRequest 
+import {
+  getUserRequests,
+  getRequestById,
+  createRequest,
+  deleteRequest
 } from '../services/requestService';
 
 
@@ -23,14 +23,18 @@ export const getUserRequestsController = async (req: ExpressRequest, res: Respon
 
     res.status(200).json({
       success: true,
-      requests: requests
+      message: 'Requests fetched successfully',
+      data: {
+        requests: requests
+      }
     });
 
   } catch (error) {
     console.error('Error fetching user requests:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch user requests'
+      error: 'Failed to fetch user requests',
+      data: null,
     });
   }
 };
@@ -52,20 +56,25 @@ export const getRequestByIdController = async (req: ExpressRequest, res: Respons
     if (!request) {
       return res.status(404).json({
         success: false,
-        error: 'Request not found'
+        message: 'Request not found',
+        data: null,
       });
     }
 
     res.status(200).json({
       success: true,
-      request: request
+      message: 'Request fetched successfully',
+      data: {
+        request: request
+      }
     });
 
   } catch (error) {
     console.error('Error fetching request:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch request'
+      message: 'Failed to fetch request',
+      date: null,
     });
   }
 };
@@ -73,7 +82,7 @@ export const getRequestByIdController = async (req: ExpressRequest, res: Respons
 export const createRequestController = async (req: ExpressRequest, res: Response) => {
   try {
     const userId = (req as any).user?.id;
-    
+
     if (!userId) {
       return res.status(401).json({
         success: false,
@@ -83,7 +92,7 @@ export const createRequestController = async (req: ExpressRequest, res: Response
 
     // Validate required fields
     const { title, postContent, contentType } = req.body;
-    
+
     if (!title || !postContent || !contentType) {
       return res.status(400).json({
         success: false,
@@ -116,7 +125,7 @@ export const createRequestController = async (req: ExpressRequest, res: Response
 
   } catch (error) {
     console.error('Error creating request:', error);
-    
+
     if (typeof error === 'object' && error !== null && 'message' in error && typeof (error as any).message === 'string' && (error as any).message.includes('Insufficient karma')) {
       return res.status(400).json({
         success: false,

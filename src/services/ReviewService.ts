@@ -67,7 +67,9 @@ export const createReview = async (reviewData: {
         model: User,
         as: 'user',
         attributes: ['id', 'karma']
-      }]
+      }],
+      transaction,
+      lock: true // Lock this row for update
     });
 
     if (!request) {
@@ -82,19 +84,44 @@ export const createReview = async (reviewData: {
     // Create the review
     const review = await Review.create({
       ...reviewData,
-      karmaAwarded: 10 // Default karma for now
+      karmaAwarded: 10 
     }, { transaction });
 
-    // Update user's karma
-    await User.increment('karma', {
-      by: 10,
-      where: { id: reviewData.reviewerId },
-      transaction
-    });
+    // Update operations in parallel for better performance
+    const currentPoints = request.getDataValue('currentPoints');
+    const newPoints = Math.max(0, currentPoints - 10);
 
-    return review;
+    await Promise.all([
+      // Award karma to reviewer
+      User.increment('karma', {
+        by: 10,
+        where: { id: reviewData.reviewerId },
+        transaction
+      }),
+      // Update request points
+      Request.update(
+        { currentPoints: newPoints },
+        { where: { id: reviewData.requestId }, transaction }
+      )
+    ]);
+
+    await transaction.commit();
+
+    return {
+      review,
+      karmaAwarded: 10,
+      pointsDeducted: 10,
+      remainingPoints: newPoints
+    };
 
   } catch (error) {
+    // Only rollback once in the catch block
+    try {
+      await transaction.rollback();
+    } catch (rollbackError) {
+      console.error('Error rolling back transaction:', rollbackError);
+    }
+    
     console.error('Error creating review:', error);
     throw error;
   }

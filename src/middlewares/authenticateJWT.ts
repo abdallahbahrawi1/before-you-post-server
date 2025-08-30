@@ -16,7 +16,6 @@ export const authenticateAndAttachUser = async (req: Request, res: Response, nex
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET) as unknown as { id: string };
-    console.log(decoded)
     req.user = decoded;
     const user = await User.findByPk(decoded.id);
     res.locals.user = user;
