@@ -22,11 +22,11 @@ const Request = sequelize.define('Request', {
     comment: 'LinkedIn/Twitter post content or draft'
   },
   contentType: {
-    type: DataTypes.ENUM('linkedin_post', 'tweet', 'instagram_caption', 'facebook_post', 'blog_excerpt', 'other'),
+    type: DataTypes.ENUM('linkedin', 'twitter', 'instagram', 'facebook', 'blog', 'other'),
     allowNull: false,
     defaultValue: 'other'
   },
-  categories: { 
+  tags: { 
     type: DataTypes.JSON,
     allowNull: true,
     comment: 'Array of category tags like ["Career Advice", "Product Launch"]'

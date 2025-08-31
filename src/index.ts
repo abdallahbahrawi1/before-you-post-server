@@ -45,7 +45,7 @@ startServer();
 
 app.use('', homeRoutes)
 app.use('/auth', authRoutes);
-app.use('/api', requestRoutes);
+app.use('/api/requests', requestRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.get('/protected')
 
