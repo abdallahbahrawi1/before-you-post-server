@@ -50,7 +50,7 @@ export const initializeDatabase = async () => {
     console.log('Connected to the database.');
     
     console.log('Synchronizing database...');
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true });
     console.log('Database synchronization complete.');
 
     // Seed data in order
