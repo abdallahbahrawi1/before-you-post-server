@@ -49,5 +49,8 @@ export const login_post = async (req: Request, res: Response) => {
 export const googleRedirect = (req: Request, res: Response) => {
   const { user, token } = req.user as { user: IUser; token: string };
   res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge });
-  res.status(200).json({ user: user.id });
+
+  // Redirect to frontend dashboard
+  const frontendUrl = process.env.FRONTEND_URL;
+  res.redirect(`${frontendUrl}/dashboard`);
 };
