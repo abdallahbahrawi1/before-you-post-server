@@ -13,10 +13,11 @@ import { initializeDatabase } from './database';
 import './config/passport-setup';
 
 const app = express();
+const corsOrigin = process.env.CORS_ORIGIN;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Frontend origin
+  origin: corsOrigin, // Frontend origin
   credentials: true, // Allow cookies to be sent with requests
 }));
 app.use(express.json());
