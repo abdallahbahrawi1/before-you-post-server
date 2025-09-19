@@ -4,7 +4,7 @@ import User from '../database/models/User';
 
 export const authenticateAndAttachUser = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies?.jwt || req.headers.authorization?.split(' ')[1];
-
+  
   if (!token) {
     res.locals.user = null;
     return res.status(401).json({ error: 'Authentication token required' });

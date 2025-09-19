@@ -18,7 +18,14 @@ export const signup_post = async (req: Request, res: Response) => {
     const user = await authService.signupUser(fullName, email, password);
 
     const token = generateToken(user.id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge, secure: false, sameSite: 'lax', path: '/' });
+    res.cookie('jwt', token, { 
+      httpOnly: true, 
+      maxAge: maxAge, 
+      secure: true, 
+      sameSite: 'none', 
+      path: '/',
+      domain: '.beforeyoupost.net'
+    });
     res.status(201).json({ user: user.id });
   } catch (error: Error | any) {
     console.error(error);
@@ -38,7 +45,14 @@ export const login_post = async (req: Request, res: Response) => {
     const user = await authService.loginUser(email, password);
 
     const token = generateToken(user.id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge, secure: false, sameSite: 'lax', path: '/' });
+    res.cookie('jwt', token, { 
+      httpOnly: true, 
+      maxAge: maxAge, 
+      secure: true, 
+      sameSite: 'none', 
+      path: '/',
+      domain: '.beforeyoupost.net'
+     });
     res.status(200).json({ user: { id: user.id, email: user.email, fullName: user.fullName } });
   } catch (error: Error | any) {
     console.error(error);
@@ -48,7 +62,14 @@ export const login_post = async (req: Request, res: Response) => {
 
 export const googleRedirect = (req: Request, res: Response) => {
   const { user, token } = req.user as { user: IUser; token: string };
-  res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge });
+  res.cookie('jwt', token, { 
+    httpOnly: true, 
+    maxAge: maxAge, 
+    secure: true, 
+    sameSite: 'none', 
+    path: '/',
+    domain: '.beforeyoupost.net'
+  });
 
   // Redirect to frontend dashboard
   const frontendUrl = process.env.FRONTEND_URL;
