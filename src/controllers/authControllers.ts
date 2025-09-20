@@ -24,7 +24,7 @@ export const signup_post = async (req: Request, res: Response) => {
       secure: true, 
       sameSite: 'none', 
       path: '/',
-      domain: '.beforeyoupost.net'
+      // domain: '.beforeyoupost.net'
     });
     res.status(201).json({ user: user.id });
   } catch (error: Error | any) {
@@ -51,7 +51,7 @@ export const login_post = async (req: Request, res: Response) => {
       secure: true, 
       sameSite: 'none', 
       path: '/',
-      domain: '.beforeyoupost.net'
+      // domain: '.beforeyoupost.net'
      });
     res.status(200).json({ user: { id: user.id, email: user.email, fullName: user.fullName } });
   } catch (error: Error | any) {
@@ -68,7 +68,7 @@ export const googleRedirect = (req: Request, res: Response) => {
     secure: true, 
     sameSite: 'none', 
     path: '/',
-    domain: '.beforeyoupost.net'
+    // domain: '.beforeyoupost.net'
   });
 
   // Redirect to frontend dashboard
