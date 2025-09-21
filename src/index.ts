@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+require('dotenv').config();
 
 // Import routes
 import authRoutes from './routes/authRoutes';
@@ -20,6 +21,7 @@ app.use(cors({
   origin: corsOrigin, // Frontend origin
   credentials: true, // Allow cookies to be sent with requests
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
