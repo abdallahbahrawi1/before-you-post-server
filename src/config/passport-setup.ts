@@ -25,15 +25,14 @@ passport.use(
   }, async (_accessToken: string, _refreshToken: string, profile: any, done: (error: any, user?: any) => void) => {
     // passport callback function
     const email = profile.emails[0].value;
-    const firstName = profile.name.givenName;
-    const lastName = profile.name.familyName;
+    const fullName = profile.displayName;
     const googleId = profile.id;
 
     let user = await User.findOne({ where: { googleId } });
 
     if (!user) {
       // Create new user
-      user = await User.create({ email, googleId, firstName, lastName });
+      user = await User.create({ email, googleId, fullName });
     }
 
     const token = generateToken((user as unknown as IUser).id);
