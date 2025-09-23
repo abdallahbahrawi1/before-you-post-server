@@ -1,4 +1,3 @@
-import User from '../models/User';
 import Request from '../models/Request';
 import { seedUsers } from './userSeeder';
 import { makeSampleRequests } from './seed-data/sampleRequests';

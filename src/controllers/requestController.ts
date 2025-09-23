@@ -108,7 +108,7 @@ export const createRequestController = async (req: ExpressRequest, res: Response
       contentType,
       categories: req.body.categories,
       imageUrl: req.body.imageUrl,
-      currentPoints: req.body.currentPoints || 50, // Default to 50 points
+      currentPoints: req.body.currentPoints || 15, // Default to 15 points
     };
 
     const newRequest = await createRequest(requestData);

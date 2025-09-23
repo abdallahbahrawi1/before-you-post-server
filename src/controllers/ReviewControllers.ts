@@ -21,6 +21,7 @@ export const getReviewFeedController = async (req: Request, res: Response) => {
 
     const karma = user ? user.get('karma') as number : 0;
     const posts = await getPostsForReview(userId, 2);
+    console.log('Fetched posts for review:', posts[0]);
     // Check if there are more posts available by trying to get 1 more
     const hasMorePosts = posts.length > 1;
 
@@ -98,7 +99,7 @@ export const submitReviewController = async (req: Request, res: Response) => {
       message: 'Review submitted successfully',
       data: {
         review: review,
-        karmaEarned: 10
+        karmaEarned: 5
       }
     });
 
