@@ -36,6 +36,7 @@ export const seedRequests = async () => {
       allRequests.push(...userSlice);
     });
 
+
     // Insert the requests
     const createdRequests = await Request.bulkCreate(allRequests);
 

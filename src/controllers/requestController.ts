@@ -100,6 +100,14 @@ export const createRequestController = async (req: ExpressRequest, res: Response
       });
     }
 
+    // Validate title length
+    if (title.length < 3) {
+      return res.status(400).json({
+        success: false,
+        error: 'Title must be at least 3 characters long'
+      });
+    }
+
     const requestData = {
       userId: userId,
       title,
