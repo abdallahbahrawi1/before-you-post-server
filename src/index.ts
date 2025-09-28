@@ -58,9 +58,3 @@ app.use('', homeRoutes)
 app.use('/auth', authRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/reviews', reviewRoutes);
-
-// cookies
-app.get('/set-cookies', (req, res) => {
-	res.cookie('newUser', false);
-	res.send('You got the cookies!');
-});
